@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Список работников</title>
+    <link href="lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <script src="lib/jquery/dist/jquery.js"></script>
+</head>
+<body>
+ 
+    <table class="table table-condensed table-striped table-bordered">
+        <thead><tr><th>Id</th><th>Имя</th><th>Фамилия</th><th>Тип ставки</th><th>Сумма</th><th></th></tr></thead>
+        <tbody></tbody>
+    </table>
+
+    <script>
+        // Получение всех рабочих
+        function GetWorkers() {
+            $.ajax({
+                url: '/api/getworkers',
+                type: 'GET',
+                contentType: "application/json",
+                success: function (workers) {
+                    var rows = "";
+                    $.each(workers, function (index, worker) {
+                        // добавляем полученные элементы в таблицу
+                        rows += row(worker);
+                    })
+                    $("table tbody").append(rows);
+                 }
+            });
+        }
+       
+        // создание строки для таблицы
+        var row = function (worker) {
+            return "<tr data-rowid='" + worker.workerID + "'><td>" + worker.workerID + "</td>" +
+                "<td>" + worker.workerName + "</td> <td>" + worker.workerLastName + "</td>" +
+                "<td>" + worker.payType + "</td> <td>" + worker.sum + "</td>" 
+
+        }
+
+        // загрузка пользователей
+        GetWorkers();
+        
+    </script>
+</body>
+</html>
